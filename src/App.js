@@ -19,59 +19,92 @@ function App() {
   const [showYala, setShowYala] = useState(true);
   const [showRoyed, setShowRoyed] = useState(true);
 
+  const [filename, setFilename] = useState([]);
+
   useEffect(() => {
     getTemples("ROY,RAN,RAY,YAL", setData);
   }, []);
 
   useEffect(() => {
     const temp = [];
+    const fn = [];
 
     if (!showRanong) {
-      temp.push(data.RAN);
+      temp.push("RAN");
+      fn.push("ระนอง");
     }
     if (!showRayong) {
-      temp.push(data.RAY);
+      temp.push("RAY");
+      fn.push("ระยอง");
     }
     if (!showYala) {
-      temp.push(data.YAL);
+      temp.push("YAL");
+      fn.push("ยะลา");
     }
     if (!showRoyed) {
-      temp.push(data.ROY);
+      temp.push("ROY");
+      fn.push("ร้อยเอ็ด");
     }
-    console.log(temp);
-    setdataDownload(temp);
+    const max = Math.max(
+      data.RAN.length,
+      data.RAY.length,
+      data.ROY.length,
+      data.YAL.length
+    );
+    const dodata = [];
+    for (let i = 0; i < max; i++) {
+      const temp2 = [];
+      temp.forEach((pv) => {
+        if (data[pv][i]) {
+          temp2.push(data[pv][i]);
+        } else {
+          temp2.push("");
+        }
+      });
+      dodata.push(temp2);
+    }
+    setFilename(fn);
+    setdataDownload(dodata);
   }, [showRanong, showRayong, showYala, showRoyed]);
 
   return (
-    <div class="px-80 py-28  bg-[url('bg.jpg')]">
-      <ul class="grid w-full gap-6 md:grid-cols-2 ">
-        <li className="">
+    <div className="px-80 pb-20 pt-14 bg-[url('bg.jpg')] caret-transparent">
+      <div className="mx-auto flex justify-center items-center text-4xl text-[#086D63] mb-5 bg-white/90 cursor-default w-1/2 h-20 rounded-xl">
+        เลือกจังหวัดที่คุณต้องการรายชื่อวัด
+      </div>
+      <ul className="grid w-full gap-6 md:grid-cols-2 ">
+        <li className="relative">
           <input
             type="checkbox"
             id="ranong-option"
             value=""
-            class="hidden peer"
+            className="hidden peer"
             required=""
             onClick={() => setShowRanong(!showRanong)}
           />
           <label
-            for="ranong-option"
-            class="inline-flex items-center justify-between w-full h-80 border-8 text-white border-white bg-white  rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-[#C8A251] hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+            htmlFor="ranong-option"
+            className="inline-flex items-center justify-between w-full h-80 border-8 text-white border-white bg-white  rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-[#C8A251] dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+          >
             <div
-              class={`${
+              className={`${
                 showRanong ? "block" : "hidden"
-              }  w-full bg-[url('ranong.jpg')] bg-cover bg-center h-full `}>
-              <div class="w-full text-6xl text-center py-[122px] bg-black bg-opacity-30">
+              }  w-full bg-[url('ranong.jpg')] bg-cover bg-center h-full hover:brightness-75 transition-all`}
+            >
+              <div className="w-full text-6xl text-center py-[122px] bg-black bg-opacity-30">
                 ระนอง
               </div>
             </div>
 
             <div
-              class={`${
+              className={`relative ${
                 showRanong ? "hidden" : "display"
-              } overflow-auto  h-full grid grid-cols-3 w-full`}>
+              } overflow-auto  h-full grid grid-cols-3 w-full px-5 py-2`}
+            >
               {data?.RAN?.slice(1).map((val) => (
-                <div class="text-ellipsis">{val}</div>
+                <div className="text-ellipsis" key={val}>
+                  {val}
+                </div>
               ))}
             </div>
           </label>
@@ -80,27 +113,30 @@ function App() {
           <input
             type="checkbox"
             id="rayong-option"
-            class="hidden peer"
+            className="hidden peer"
             required=""
             onClick={() => setShowRayong(!showRayong)}
           />
           <label
-            for="rayong-option"
-            class=" inline-flex items-center justify-between w-full h-80  border-8 peer-checked:border-8 text-white border-white bg-white  rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-[#C8A251] hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+            htmlFor="rayong-option"
+            className=" inline-flex items-center justify-between w-full h-80  border-8 peer-checked:border-8 text-white border-white bg-white  rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-[#C8A251] dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+          >
             <div
-              class={`${
+              className={`${
                 showRayong ? "block" : "hidden"
-              }  w-full bg-[url('rayong.jpg')] bg-cover bg-center h-full  `}>
-              <div class="w-full text-6xl text-center py-[122px] bg-black bg-opacity-30">
+              }  w-full bg-[url('rayong.jpg')] bg-cover bg-center h-full hover:brightness-75 transition-all `}
+            >
+              <div className="w-full text-6xl text-center py-[122px] bg-black bg-opacity-30">
                 ระยอง
               </div>
             </div>
             <div
-              class={`${
+              className={`${
                 showRayong ? "hidden" : "display"
-              } overflow-auto h-full grid grid-cols-3 w-full`}>
+              } overflow-auto h-full grid grid-cols-3 w-full px-5 py-2`}
+            >
               {data?.RAY?.slice(1).map((val) => (
-                <div>{val}</div>
+                <div key={val}>{val}</div>
               ))}
             </div>
           </label>
@@ -109,27 +145,30 @@ function App() {
           <input
             type="checkbox"
             id="yala-option"
-            class="hidden peer"
+            className="hidden peer"
             onClick={() => setShowYala(!showYala)}
           />
           <label
-            for="yala-option"
-            class=" inline-flex items-center justify-between w-full h-80  border-8 peer-checked:border-8 text-white border-white bg-white  rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-[#C8A251] hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+            htmlFor="yala-option"
+            className=" inline-flex items-center justify-between w-full h-80  border-8 peer-checked:border-8 text-white border-white bg-white  rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-[#C8A251] dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+          >
             <div
-              class={`${
+              className={`${
                 showYala ? "block" : "hidden"
-              }  w-full bg-[url('raya.jpg')] bg-cover bg-center h-full  `}>
-              <div class="w-full text-6xl text-center py-[122px] bg-black bg-opacity-30">
+              }  w-full bg-[url('raya.jpg')] bg-cover bg-center h-full hover:brightness-75 transition-all `}
+            >
+              <div className="w-full text-6xl text-center py-[122px] bg-black bg-opacity-30">
                 ยะลา
               </div>
             </div>
 
             <div
-              class={`${
+              className={`${
                 showYala ? "hidden" : "display"
-              } overflow-auto  h-full grid grid-cols-3 w-full`}>
+              } overflow-auto  h-full grid grid-cols-3 w-full px-5 py-2`}
+            >
               {data?.YAL?.slice(1).map((val) => (
-                <div>{val}</div>
+                <div key={val}>{val}</div>
               ))}
             </div>
           </label>
@@ -138,41 +177,57 @@ function App() {
           <input
             type="checkbox"
             id="royed-option"
-            class="hidden peer"
+            className="hidden peer"
             onClick={() => setShowRoyed(!showRoyed)}
           />
           <label
-            for="royed-option"
-            class=" inline-flex items-center justify-between w-full h-80  border-8 peer-checked:border-8 text-white border-white bg-white  rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-[#C8A251] hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+            htmlFor="royed-option"
+            className=" inline-flex items-center justify-between w-full h-80  border-8 peer-checked:border-8 text-white border-white bg-white  rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-[#C8A251] dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+          >
             <div
-              class={`${
+              className={`${
                 showRoyed ? "block" : "hidden"
-              }  w-full bg-[url('royed.jpg')] bg-cover bg-center h-full  `}>
-              <div class="w-full text-6xl text-center py-[122px] bg-black bg-opacity-30">
+              }  w-full bg-[url('royed.jpg')] bg-cover bg-center h-full hover:brightness-75 transition-all `}
+            >
+              <div className="w-full text-6xl text-center py-[122px] bg-black bg-opacity-30">
                 ร้อยเอ็ด
               </div>
             </div>
 
             <div
-              class={`${
+              className={`${
                 showRoyed ? "hidden" : "display"
-              } overflow-auto h-full grid grid-cols-3 w-full`}>
+              } overflow-auto h-full grid grid-cols-3 w-full px-5 py-2`}
+            >
               {data?.ROY?.slice(1).map((val) => (
-                <div>{val}</div>
+                <div key={val}>{val}</div>
               ))}
             </div>
           </label>
         </li>
       </ul>
 
-      <div class="flex flex-row-reverse pt-4">
-        <button
-          type="button"
-          class="focus:outline-none  w-44 h-16  text-white bg-green-600 border-4 hover:bg-green-300 focus:ring-4 font-medium rounded-lg text-3xl ">
-          <CSVLink filename="temple.csv" data={dataDownload} target="_blank">
-            ดาวน์โหลด
-          </CSVLink>
-        </button>
+      <div className="flex pt-4 justify-end">
+        {filename.length ? (
+          <div className="mr-5 text-2xl self-center text-white bg-zinc-800/80 rounded-md py-3 px-5">
+            {filename.join("_")}.csv
+          </div>
+        ) : null}
+        <CSVLink
+          filename={`${filename.join("_")}`}
+          data={dataDownload}
+          onClick={(e) => {
+            return filename.length ? true : false;
+          }}
+          target="_blank"
+          className={`flex justify-center items-center w-44 h-16 border-4 text-3xl border-white transition-all font-medium rounded-lg ${
+            filename.length
+              ? "text-white bg-green-600 hover:bg-white hover:text-green-600"
+              : "bg-zinc-500 brightness-50 text-white cursor-default"
+          }`}
+        >
+          ดาวน์โหลด
+        </CSVLink>
       </div>
     </div>
   );
