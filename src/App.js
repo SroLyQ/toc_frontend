@@ -5,12 +5,7 @@ import { getTemples } from "./actions/temples";
 import React, { useEffect, useState } from "react";
 
 function App() {
-  const [data, setData] = useState({
-    ROY: [],
-    RAN: [],
-    RAY: [],
-    YAL: [],
-  });
+  const [data, setData] = useState();
 
   const [dataDownload, setdataDownload] = useState([]);
 
@@ -30,41 +25,32 @@ function App() {
     const fn = [];
 
     if (!showRanong) {
-      temp.push("RAN");
+      data.RAN.forEach((t) => {
+        temp.push(t);
+      });
       fn.push("ระนอง");
     }
     if (!showRayong) {
-      temp.push("RAY");
+      data.RAY.forEach((t) => {
+        temp.push(t);
+      });
       fn.push("ระยอง");
     }
     if (!showYala) {
-      temp.push("YAL");
+      data.YAL.forEach((t) => {
+        temp.push(t);
+      });
       fn.push("ยะลา");
     }
     if (!showRoyed) {
-      temp.push("ROY");
+      data.ROY.forEach((t) => {
+        temp.push(t);
+      });
       fn.push("ร้อยเอ็ด");
     }
-    const max = Math.max(
-      data.RAN.length,
-      data.RAY.length,
-      data.ROY.length,
-      data.YAL.length
-    );
-    const dodata = [];
-    for (let i = 0; i < max; i++) {
-      const temp2 = [];
-      temp.forEach((pv) => {
-        if (data[pv][i]) {
-          temp2.push(data[pv][i]);
-        } else {
-          temp2.push("");
-        }
-      });
-      dodata.push(temp2);
-    }
+    console.log(temp);
     setFilename(fn);
-    setdataDownload(dodata);
+    setdataDownload(temp);
   }, [showRanong, showRayong, showYala, showRoyed]);
 
   return (
@@ -102,7 +88,7 @@ function App() {
                   showRanong ? "hidden" : "display"
                 } overflow-auto  h-full grid grid-cols-3 w-full px-5 py-2`}
               >
-                {data?.RAN?.slice(1).map((val) => (
+                {data?.RAN?.map((val) => (
                   <div className="text-ellipsis" key={val}>
                     {val}
                   </div>
@@ -136,7 +122,7 @@ function App() {
                   showRayong ? "hidden" : "display"
                 } overflow-auto h-full grid grid-cols-3 w-full px-5 py-2`}
               >
-                {data?.RAY?.slice(1).map((val) => (
+                {data?.RAY?.map((val) => (
                   <div key={val}>{val}</div>
                 ))}
               </div>
@@ -168,7 +154,7 @@ function App() {
                   showYala ? "hidden" : "display"
                 } overflow-auto  h-full grid grid-cols-3 w-full px-5 py-2`}
               >
-                {data?.YAL?.slice(1).map((val) => (
+                {data?.YAL?.map((val) => (
                   <div key={val}>{val}</div>
                 ))}
               </div>
@@ -200,7 +186,7 @@ function App() {
                   showRoyed ? "hidden" : "display"
                 } overflow-auto h-full grid grid-cols-3 w-full px-5 py-2`}
               >
-                {data?.ROY?.slice(1).map((val) => (
+                {data?.ROY?.map((val) => (
                   <div key={val}>{val}</div>
                 ))}
               </div>
@@ -256,7 +242,11 @@ function App() {
             <div className="text-2xl mb-2">Link งานทั้งหมด</div>
             <ul className="list-disc">
               <li className="underline underline-offset-2 ml-7">
-                <a href="" className="underline underline-offset-2">
+                <a
+                  href=""
+                  className="underline underline-offset-2"
+                  target="_blank"
+                >
                   ไฟล์ CSV รวมรายชื่อวัดทั้งหมด
                 </a>
               </li>

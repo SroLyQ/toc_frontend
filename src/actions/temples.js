@@ -13,19 +13,10 @@ export async function getTemples(param, callback) {
 }
 
 const refactorObject = (data) => {
-  let refactoredObject = {};
   console.log(data);
+  let refactoredObject = {};
   for (const val in data) {
     let l = [];
-    if (val === "ROY") {
-      l.push(["ร้อยเอ็ด"]);
-    } else if (val === "RAN") {
-      l.push(["ระนอง"]);
-    } else if (val === "RAY") {
-      l.push(["ระยอง"]);
-    } else if (val === "YAL") {
-      l.push(["ยะลา"]);
-    }
     for (const d of data[val]) {
       l.push([d]);
     }
